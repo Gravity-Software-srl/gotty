@@ -72,6 +72,7 @@ By default, GoTTY starts a web server at port 8080. Open the URL on your web bro
 --close-signal value          Signal sent to the command process when gotty close it (default: SIGHUP) (default: 1) [$GOTTY_CLOSE_SIGNAL]
 --close-timeout value         Time in seconds to force kill process after client is disconnected (default: -1) (default: -1) [$GOTTY_CLOSE_TIMEOUT]
 --config value                Config file path (default: "~/.gotty") [$GOTTY_CONFIG]
+--sso-url value               URL of SSO provider
 --version, -v                 print the version
 ```
 

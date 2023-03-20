@@ -110,11 +110,19 @@ func (server *Server) processWSConn(ctx context.Context, conn *websocket.Conn) e
 		queryPath = init.Arguments
 	}
 
+	if server.options.SSOUrl != "" && init.Arguments != "" {
+		queryPath = init.Arguments
+	}
+
 	query, err := url.Parse(queryPath)
 	if err != nil {
 		return errors.Wrapf(err, "failed to parse arguments")
 	}
 	params := query.Query()
+	// if server.options.SSOUrl != "" {
+	// 	params["sso-callback-url"] = url.String()
+	// }
+
 	var slave Slave
 	slave, err = server.factory.New(params)
 	if err != nil {

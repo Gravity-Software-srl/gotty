@@ -1,6 +1,7 @@
 package localcommand
 
 import (
+	"strings"
 	"syscall"
 	"time"
 
@@ -42,6 +43,17 @@ func (factory *Factory) New(params map[string][]string) (server.Slave, error) {
 	copy(argv, factory.argv)
 	if params["arg"] != nil && len(params["arg"]) > 0 {
 		argv = append(argv, params["arg"]...)
+	}
+
+	for k, v := range params {
+		arg_name := strings.Replace(k, "_", "-", -1)
+		if len(arg_name) > 1 {
+			arg_name = "--" + arg_name
+		} else {
+			arg_name = "-" + arg_name
+		}
+		argv = append(argv, arg_name)
+		argv = append(argv, v[0])
 	}
 
 	return New(factory.command, argv, factory.opts...)
