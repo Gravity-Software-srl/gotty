@@ -1,7 +1,7 @@
 OUTPUT_DIR = ./builds
 GIT_COMMIT = `git rev-parse HEAD | cut -c1-7`
 VERSION = 2.0.0-alpha.3
-BUILD_OPTIONS = -ldflags "-X main.Version=$(VERSION) -X main.CommitID=$(GIT_COMMIT)"
+BUILD_OPTIONS = -mod=mod -ldflags "-X main.Version=$(VERSION) -X main.CommitID=$(GIT_COMMIT)"
 
 gotty: main.go server/*.go webtty/*.go backend/*.go Makefile
 	godep go build ${BUILD_OPTIONS}
@@ -51,7 +51,8 @@ js/node_modules/xterm/dist/xterm.css:
 
 js/dist/gotty-bundle.js: js/src/* js/node_modules/webpack
 	cd js && \
-	`npm bin`/webpack
+	npm run build
+	#`npm bin`/webpack
 
 js/node_modules/webpack:
 	cd js && \

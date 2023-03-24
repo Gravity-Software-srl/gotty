@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -237,10 +236,6 @@ func (server *Server) setupHandlers(ctx context.Context, cancel context.CancelFu
 				http.Error(w, "Missing or empty "+ssoTokenKeyName, http.StatusBadRequest)
 				return
 			}
-			// add URL for sso callback
-			// beware that these fields are empty when accessing directly through an IP address
-			url := fmt.Sprintf("%s://%s%s", r.URL.Scheme, r.URL.Host, r.URL.Path)
-			queryValues.Add("sso-callback-url", url)
 			u.RawQuery = queryValues.Encode()
 			// clear path for redirecting to server root
 			u.Path = ""
