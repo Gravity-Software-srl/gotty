@@ -1,9 +1,23 @@
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(source-code-pro.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 .terminal {
-    font-family: "DejaVu Sans Mono", "Everson Mono", FreeMono, Menlo, Terminal, monospace, "Apple Symbols";
+    font-family: "Source Code Pro", "Noto Color Emoji", "DejaVu Sans Mono", "Everson Mono", FreeMono, Menlo, Terminal, monospace, "Apple Symbols";
+}
+
+.terminal .xterm-viewport {
+    background: rgba(46,49,49,1);
 }
 
 .xterm-overlay {
-    font-family: "DejaVu Sans Mono", "Everson Mono", FreeMono, Menlo, Terminal, monospace, "Apple Symbols";
+    /* font-family: "DejaVu Sans Mono", "Everson Mono", FreeMono, Menlo, Terminal, monospace, "Apple Symbols"; */
+    font-family: "Source Code Pro", "Noto Color Emoji", "DejaVu Sans Mono", "Everson Mono", FreeMono, Menlo, Terminal, monospace, "Apple Symbols";
     border-radius: 15px;
     font-size: xx-large;
     color: black;
@@ -16,4 +30,8 @@
     transform: translate(-50%, -50%);
     user-select: none;
     transition: opacity 180ms ease-in;
+}
+
+.terminal-cursor {
+  background-color: rgba(236,236,236,1);
 }
