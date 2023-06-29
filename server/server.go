@@ -222,7 +222,8 @@ func (server *Server) setupHandlers(ctx context.Context, cancel context.CancelFu
 		wsMux.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// if r.URL.Path == "/" && r.URL.RawQuery == "" {p
 			if r.URL.Path == "/" && r.URL.Query().Get(ssoTokenKeyName) == "" {
-				http.Redirect(w, r, ssoUrl, http.StatusSeeOther)
+				originalQueryStrings := url.QueryEscape(r.URL.RawQuery)
+				http.Redirect(w, r, ssoUrl + "&state=" + originalQueryStrings, http.StatusSeeOther)
 				return
 			}
 			siteMux.ServeHTTP(w, r)
@@ -236,10 +237,20 @@ func (server *Server) setupHandlers(ctx context.Context, cancel context.CancelFu
 				http.Error(w, "Missing or empty "+ssoTokenKeyName, http.StatusBadRequest)
 				return
 			}
+			queryValues.Del("session_state")
+			encodedOriginalQuery := queryValues.Get("state")
+			originalQueryStrings := ""
+			if encodedOriginalQuery != "" {
+				_originalQueryStrings, err := url.QueryUnescape(encodedOriginalQuery)
+				if err == nil {
+					originalQueryStrings = _originalQueryStrings
+					queryValues.Del("state")
+				}
+			}
 			u.RawQuery = queryValues.Encode()
 			// clear path for redirecting to server root
 			u.Path = ""
-			http.Redirect(w, r, u.String(), http.StatusSeeOther)
+			http.Redirect(w, r, u.String() + "&" + originalQueryStrings, http.StatusSeeOther)
 		}))
 
 	} else {
